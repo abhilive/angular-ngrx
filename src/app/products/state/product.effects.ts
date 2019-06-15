@@ -1,25 +1,29 @@
-import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { ProductService } from "../product.service";
-import * as productActions from "./product.actions";
-import { mergeMap, map, catchError } from "rxjs/operators";
-import { Product } from "../product";
-import { of, Observable } from "rxjs";
-import { Action } from "@ngrx/store";
+import { Injectable } from '@angular/core';
+
+import { Observable, of } from 'rxjs';
+import { mergeMap, map, catchError } from 'rxjs/operators';
+
+import { ProductService } from '../product.service';
+import { Product } from '../product';
+
+/* NgRx */
+import { Action } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import * as productActions from './product.actions';
 
 @Injectable()
 export class ProductEffects {
   constructor(
-    private actions$: Actions,
-    private productService: ProductService
+    private productService: ProductService,
+    private actions$: Actions
   ) {}
 
   @Effect()
   loadProducts$: Observable<Action> = this.actions$.pipe(
     ofType(productActions.ProductActionTypes.Load),
-    mergeMap((action: productActions.Load) =>
+    mergeMap(action =>
       this.productService.getProducts().pipe(
-        map((products: Product[]) => new productActions.LoadSuccess(products)),
+        map(products => new productActions.LoadSuccess(products)),
         catchError(err => of(new productActions.LoadFail(err)))
       )
     )
@@ -32,10 +36,10 @@ export class ProductEffects {
     mergeMap((product: Product) =>
       this.productService.updateProduct(product).pipe(
         map(
-          updateProduct =>
-            new productActions.UpdateProductSuccess(updateProduct)
+          updatedProduct =>
+            new productActions.UpdateProductSuccess(updatedProduct)
         ),
-        catchError(err => of(new productActions.LoadFail(err)))
+        catchError(err => of(new productActions.UpdateProductFail(err)))
       )
     )
   );

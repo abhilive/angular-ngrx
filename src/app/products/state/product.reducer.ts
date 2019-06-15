@@ -1,8 +1,7 @@
-import * as fromRoot from "../../state/app.state";
-import { Product } from "../product";
+import { Product } from '../product';
+import { ProductActionTypes, ProductActions } from './product.actions';
 
-import { productActions, ProductActionTypes } from "./product.actions";
-
+// State for this feature (Product)
 export interface ProductState {
   showProductCode: boolean;
   currentProductId: number | null;
@@ -14,13 +13,11 @@ const initialState: ProductState = {
   showProductCode: true,
   currentProductId: null,
   products: [],
-  error: ""
+  error: ''
 };
 
-export function reducer(
-  state = initialState,
-  action: productActions
-): ProductState {
+export function reducer(state = initialState, action: ProductActions): ProductState {
+
   switch (action.type) {
     case ProductActionTypes.ToggleProductCode:
       return {
@@ -50,7 +47,7 @@ export function reducer(
       return {
         ...state,
         products: action.payload,
-        error: ""
+        error: ''
       };
 
     case ProductActionTypes.LoadFail:
@@ -62,13 +59,12 @@ export function reducer(
 
     case ProductActionTypes.UpdateProductSuccess:
       const updatedProducts = state.products.map(
-        item => (action.payload.id === item.id ? action.payload : item)
-      );
+        item => action.payload.id === item.id ? action.payload : item);
       return {
         ...state,
         products: updatedProducts,
         currentProductId: action.payload.id,
-        error: ""
+        error: ''
       };
 
     case ProductActionTypes.UpdateProductFail:
@@ -83,7 +79,7 @@ export function reducer(
         ...state,
         products: [...state.products, action.payload],
         currentProductId: action.payload.id,
-        error: ""
+        error: ''
       };
 
     case ProductActionTypes.CreateProductFail:
@@ -92,15 +88,13 @@ export function reducer(
         error: action.payload
       };
 
-    // After a delete, the currentProductId is null.
+    // After a delete, the currentProduct is null.
     case ProductActionTypes.DeleteProductSuccess:
       return {
         ...state,
-        products: state.products.filter(
-          product => product.id !== action.payload
-        ),
+        products: state.products.filter(product => product.id !== action.payload),
         currentProductId: null,
-        error: ""
+        error: ''
       };
 
     case ProductActionTypes.DeleteProductFail:

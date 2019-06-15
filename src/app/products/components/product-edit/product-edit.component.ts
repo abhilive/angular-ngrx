@@ -6,21 +6,21 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+  SimpleChanges,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Product } from "../../product";
-import { GenericValidator } from "../../../shared/generic-validator";
-import { NumberValidators } from "../../../shared/number.validator";
+import { Product } from '../../product';
+import { GenericValidator } from '../../../shared/generic-validator';
+import { NumberValidators } from '../../../shared/number.validator';
 
 @Component({
-  selector: "pm-product-edit",
-  templateUrl: "./product-edit.component.html",
-  styleUrls: ["./product-edit.component.css"]
+  selector: 'pm-product-edit',
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.css'],
 })
 export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
-  pageTitle = "Product Edit";
+  pageTitle = 'Product Edit';
 
   @Input()
   errorMessage: string;
@@ -49,16 +49,16 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
     // These could instead be retrieved from a file or database.
     this.validationMessages = {
       productName: {
-        required: "Product name is required.",
-        minlength: "Product name must be at least three characters.",
-        maxlength: "Product name cannot exceed 50 characters."
+        required: 'Product name is required.',
+        minlength: 'Product name must be at least three characters.',
+        maxlength: 'Product name cannot exceed 50 characters.',
       },
       productCode: {
-        required: "Product code is required."
+        required: 'Product code is required.',
       },
       starRating: {
-        range: "Rate the product between 1 (lowest) and 5 (highest)."
-      }
+        range: 'Rate the product between 1 (lowest) and 5 (highest).',
+      },
     };
 
     // Define an instance of the validator for use with this form,
@@ -70,12 +70,16 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
     // Define the form group
     this.productForm = this.fb.group({
       productName: [
-        "",
-        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+        ],
       ],
-      productCode: ["", Validators.required],
-      starRating: ["", NumberValidators.range(1, 5)],
-      description: ""
+      productCode: ['', Validators.required],
+      starRating: ['', NumberValidators.range(1, 5)],
+      description: '',
     });
 
     // Watch for value changes
@@ -111,13 +115,13 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
     // Set the local product property
     this.product = product;
 
-    if (this.product) {
+    if (this.product && this.productForm) {
       // Reset the form back to pristine
       this.productForm.reset();
 
       // Display the appropriate page title
       if (this.product.id === 0) {
-        this.pageTitle = "Add Product";
+        this.pageTitle = 'Add Product';
       } else {
         this.pageTitle = `Edit Product: ${this.product.productName}`;
       }
@@ -127,7 +131,7 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
         productName: this.product.productName,
         productCode: this.product.productCode,
         starRating: this.product.starRating,
-        description: this.product.description
+        description: this.product.description,
       });
     }
   }
@@ -164,7 +168,7 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     } else {
-      this.errorMessage = "Please correct the validation errors.";
+      this.errorMessage = 'Please correct the validation errors.';
     }
   }
 }

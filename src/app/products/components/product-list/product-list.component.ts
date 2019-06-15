@@ -1,13 +1,13 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Product } from "../../product";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Product } from '../../product';
 
 @Component({
-  selector: "pm-product-list",
-  templateUrl: "./product-list.component.html",
-  styleUrls: ["./product-list.component.css"]
+  selector: 'pm-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent {
-  pageTitle = "Products";
+  pageTitle = 'Products';
   @Input()
   errorMessage: string;
   @Input()
